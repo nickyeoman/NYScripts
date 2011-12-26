@@ -27,10 +27,20 @@ fi
 
 # Create Directories
 cd $projectDir
+
 #TODO: check for domain then error if exists
 mkdir $domain
-cd $domain
+cd $projectDir/$domain
 mkdir public lib core-edits scripts sql bind apache 
+
+cd $projectDir/$domain
+
+# Grab Nick Yeoman's scripts
+cd scripts
+wget https://raw.github.com/nickyeoman/NYScripts/master/config.sh
+wget https://raw.github.com/nickyeoman/NYScripts/master/database.bash
+
+cd $projectDir/$domain
 
 #Pull CMSes
 cd lib
@@ -103,7 +113,31 @@ tar -xzf v2.0.3
 mv EllisLab-CodeIgniter-8c9758c/ codeIgniter/
 rm -rf v2.0.3
 
-#Create DB script
-#wget sha1.php
-#password=`php sha1.php $domain $RANDOM $RANDOM` #change this to use $salt $salt want to be able to recover passwords (less secure)
+cd $projectDir/$domain
 
+#Create DB script
+cd sql
+wget https://raw.github.com/nickyeoman/NYScripts/master/sha1.php
+dbpass=`php sha1.php $domain $RANDOM $RANDOM` #change this to use $salt $salt want to be able to recover passwords (less secure)
+#arr=$(echo $domain | tr "." "\n")
+#dbname= ${arr[0]}
+dbname=`echo $domain | sed 's/\(.*\)\..*/\1/'`
+dbuser=`echo u$dbname`
+
+rm sha1.php
+#--------Begin here document-----------#
+cat <<xFileconfigsqlx > config.sql
+-- Remove Existing Database
+DROP DATABASE IF EXISTS $dbname;
+-- Create database
+CREATE DATABASE $dbname;
+-- Make remove user (create one to suppress errors)
+GRANT USAGE ON *.* TO '$dbuser'@'localhost';
+-- Drop the user
+DROP USER '$dbuser'@'localhost';
+-- Create the correct user with correct password
+GRANT ALL PRIVILEGES ON $dbname.* to '$dbuser'@'localhost' IDENTIFIED BY '$dbpass';
+xFileconfigsqlx
+#----------End here document-----------#
+
+cd $projectDir/$domain
