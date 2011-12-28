@@ -1,20 +1,21 @@
 #!/bin/bash
 # Build Project Directories
-# v2.0
-# Last Updated: Dec 26, 2011
+# v3.0
+# Last Updated: Dec 28, 2011
 # Documentation: 
 # http://www.nickyeoman.com/blog/system-administration/18-project-directory-setup
 
 # REQUIREMENTS
 # Ubuntu/debian:
 # sudo apt-get install php-cli git-core svn unzip
+# You also need an internet connection
 
 ##
 # Variables
 ##
-	projectDir=/git #full path
-	salt=XXXxxxXXX #change this (and below) if you want recoverable passwords
-	defaultInstall=joomla #(will be the public directory
+	projectDir=/git #full path to install directory
+	salt=$RANDOM #Change this to something static for recoverable passwords
+	defaultInstall=joomla #lib directory to move to the public directory
 
 	#Project Domain
 	if [ -z "$1" ]; then
@@ -47,7 +48,7 @@
 ##
 	cd sql
 	wget https://raw.github.com/nickyeoman/NYScripts/master/sha1.php
-	dbpass=`php sha1.php $domain $RANDOM $RANDOM` #change this to use $salt $salt want to be able to recover passwords (less secure)
+	dbpass=`php sha1.php $domain $salt $salt` 
 	dbname=`echo $domain | sed 's/\(.*\)\..*/\1/'`
 	dbuser=`echo u$dbname`
 	rm sha1.php
@@ -75,6 +76,7 @@ xFileconfigsqlx
 #--------Begin here document-----------#
 cat <<xFileconfigshx > symlink.sh
 # Sample symlinik.sh file
+# NOTE: lib dirs will have to be renamed for this to work (remove version numbers from software)
 cd ../public
 ln -s ../lib/atrium collaboration
 ln -s ../lib/drupal drupal
@@ -85,6 +87,14 @@ ln -s ../lib/opencart shop
 ln -s ../lib/piwik analytics
 ln -s ../lib/vanilla forum
 ln -s ../lib/wordpress wordpress
+
+#Sample Core Edits
+mv configuration.php ../core-edits
+ln -s ../core-edits/configuration.php
+
+mv htaccess.txt ../core-edits/htaccess
+ln -s ../htaccess .htaccess
+
 xFileconfigshx
 #----------End here document-----------#
 	cd $projectDir/$domain
@@ -119,74 +129,46 @@ xFileconfigshx
 #Pull CMSes
 ##
 	cd lib
-
-	#joomla
-	#find latest here: http://www.joomla.org/download.html
-	svn export --force --username anonymous --password "" http://joomlacode.org/svn/joomla/development/tags/1.7.x/1.7.3/ joomla
-
-	#wordpress
-	#find latest here: http://wordpress.org/download/
-	# wget http://wordpress.org/latest.zip
-	svn export http://core.svn.wordpress.org/tags/3.3 wordpress
-
-	#Drupal
-	# find latest here: http://drupal.org/download
-	#TODO: svn? git? anything better than wget?
-	wget http://ftp.drupal.org/files/projects/drupal-7.10.tar.gz
-	tar -xzf drupal-7.10.tar.gz
-	rm *.gz
-	mv drupal-7.10 drupal
-
-	#open cart
-	# latest: http://www.opencart.com/index.php?route=download/download
-	wget http://opencart.googlecode.com/files/opencart_v1.5.1.3.1.zip
-	unzip opencart_v1.5.1.3.1.zip
-	rm -rf *.zip *.txt
-	mv upload opencart
-
-	# media wiki
-	wget http://download.wikimedia.org/mediawiki/1.18/mediawiki-1.18.0.tar.gz
-	tar -xzf mediawiki-1.18.0.tar.gz
-	rm *.gz
-	mv mediawiki-1.18.0 mediawiki
-
-	# Piwik
-	wget http://piwik.org/latest.zip
-	unzip latest.zip
-	rm *.zip *.html
-
-	#Atrium
-	# latest: openatrium.com/download
-	wget http://openatrium.com/sites/openatrium.com/files/atrium_releases/atrium-1-1.tgz
-	tar -xzf atrium-1-1.tgz
-	rm *.tgz
-	mv atrium-1.1 atrium
-
-	# Gallery 3
-	wget http://downloads.sourceforge.net/gallery/gallery-3.0.2.zip
-	unzip gallery-3.0.2.zip
-	rm *.zip
-
-	# Mantis
-	# latest: http://sourceforge.net/projects/mantisbt/files/mantis-stable/
-	wget http://downloads.sourceforge.net/project/mantisbt/mantis-stable/1.2.8/mantisbt-1.2.8.tar.gz
-	tar -xzf mantisbt-1.2.8.tar.gz
-	rm *.gz
-	mv mantisbt-1.2.8 mantis
-
-	#vanilla
-	#latest: https://github.com/vanillaforums/Garden/tags
-	wget https://github.com/vanillaforums/Garden/zipball/Vanilla_2.0.18.1
-	mv Vanilla_2.0.18.1 Vanilla_2.0.18.1.zip
-	unzip Vanilla_2.0.18.1.zip
-	rm *.zip
-	mv vanillaforums-Garden-0745734 vanilla
-
-	#codeigniter
-	wget https://github.com/EllisLab/CodeIgniter/tarball/v2.0.3
-	tar -xzf v2.0.3
-	mv EllisLab-CodeIgniter-8c9758c/ codeIgniter/
-	rm -rf v2.0.3
+	
+	wget https://raw.github.com/nickyeoman/NYScripts/master/cms-latest.txt
+	
+	cat cms-latest.txt | while read line
+	do
+		wget $line
+	done
+	
+	rm cms-latest.txt
+	
+	#extract tarballs
+	for filename in *.tar.gz
+	do
+	  tar zxf $filename
+	done
+	
+	rm *.tar.gz #done with tars
+	
+	#extract tarbombs
+	for filename in *.tarbomb
+	do
+		folder=${filename%%.*}
+		mkdir $folder
+		mv $filename $folder/.
+		cd $folder
+		tar zxf $filename
+		rm *.tarbomb
+		cd ..
+	done
+	
+	#extract zips
+	for filename in *.zip
+	do
+	  unzip $filename
+	done
+	
+	rm *.zip #done with zips
+	
+	#remove non directories
+	rm *.txt *.html
 
 	cd $projectDir/$domain
 
@@ -201,3 +183,27 @@ xFileconfigshx
 	git init
 	git add *
 	git commit -a -m"Used nick's new project script"
+
+##
+# All Done
+##
+
+echo <<xtalkToMex
+
+
+****************************************
+Installation Finished
+Your domain ($domain) is setup
+Directory               = $projectDir/$domain
+Database name     = $dbname
+Database user       = $dbuser
+Databse password = $dbpass
+(you can refer to config.sql for this info)
+
+Notes: 
+* Your symlink file won't work without renaming lib dirs
+* You can now run config.sh to install to server (as root)
+* It's recommended to remove any lib dirs your not using (for space)
+****************************************
+
+xtalkToMex
