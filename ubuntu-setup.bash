@@ -1,12 +1,13 @@
 #!/bin/bash
 # Install script for a clean install of Ubuntu 11.10
-# v3.0
-# Dec 17 2011
+# v3.1
+# Feb 10 2012
 # NickYeoman.com
 
 #vars
 mytype='server'
 #mytype='desktop'
+#mytype='xubuntu'
 
 #check to ensure root
 if [ "$(id -u)" != "0" ]; then
@@ -18,7 +19,7 @@ fi
 #	APT SECTION
 #####################################
 
-#For 11.04 on MT
+#For 11.04 on MT, but good to match systems
 apt-get -y install language-pack-en-base
 
 # Update
@@ -32,16 +33,40 @@ apt-get -y install php5-imagick php5-gd php5-cli
 #apt-get -y install openssh-server openssh-client #usually done for you already
 
 # Development tools
-apt-get -y install subversion nmap git-core
+apt-get -y install subversion nmap git-core htop
 
 #magento
 apt-get -y install curl php5-curl php5-mcrypt php5-mhash php5-dev php-pear 
 
+#####################################
+#	Server SECTION
+#####################################
+# My Personal Preferences for a desktop install
+if [ "$my_type" = "server" ]; then
+	# Everything on a server is on develpment machine too
+fi
+
+
+#####################################
+#	Desktop SECTION
+#####################################
 # My Personal Preferences for a desktop install
 if [ "$my_type" = "desktop" ]; then
-	apt-get -y install scite mysql-query-browser phpmyadmin
-	apt-get -y install k3b amarok krename vlc picard thunderbird pidgin
+	apt-get -y install scite mysql-query-browser phpmyadmin k3b krename vlc picard
 fi
+
+#####################################
+#	xubuntu SECTION
+#####################################
+# My Personal Preferences for a desktop install
+if [ "$my_type" = "xubuntu" ]; then
+	#this part mirrors desktop
+	apt-get -y install scite mysql-query-browser phpmyadmin krename
+
+	#just for xubuntu
+	apt-get -y install system-config-samba gvfs-backends chromium-browser
+fi 
+
 
 #email 
 apt-get -y install sendmail 
