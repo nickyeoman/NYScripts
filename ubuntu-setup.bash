@@ -1,6 +1,6 @@
 #!/bin/bash
 # Install script for a clean install of Ubuntu 11.10
-# v3.1
+# v3.2
 # Feb 10 2012
 # NickYeoman.com
 
@@ -38,44 +38,8 @@ apt-get -y install subversion nmap git-core htop
 #magento
 apt-get -y install curl php5-curl php5-mcrypt php5-mhash php5-dev php-pear 
 
-#####################################
-#	Server SECTION
-#####################################
-# My Personal Preferences for a desktop install
-if [ "$my_type" = "server" ]; then
-	# Everything on a server is on develpment machine too
-fi
-
-
-#####################################
-#	Desktop SECTION
-#####################################
-# My Personal Preferences for a desktop install
-if [ "$my_type" = "desktop" ]; then
-	apt-get -y install scite mysql-query-browser phpmyadmin k3b krename vlc picard
-fi
-
-#####################################
-#	xubuntu SECTION
-#####################################
-# My Personal Preferences for a desktop install
-if [ "$my_type" = "xubuntu" ]; then
-	#this part mirrors desktop
-	apt-get -y install scite mysql-query-browser phpmyadmin krename
-
-	#just for xubuntu
-	apt-get -y install system-config-samba gvfs-backends chromium-browser
-fi 
-
-
 #email 
 apt-get -y install sendmail 
-
-#Clean things up
-apt-get -y upgrade
-apt-get autoclean
-apt-get clean
-
 
 #####################################
 #	Apache SECTION
@@ -85,9 +49,48 @@ apt-get clean
 a2enmod setenvif headers deflate filter expires rewrite
 /etc/init.d/apache2 restart
 
+
+#####################################
+#	Server SECTION
+#####################################
+# My Personal Preferences for a desktop install
+if [ "$my_type" = "server" ]; then
+	# Everything on a server is on develpment machine too
+	echo "server"
+fi
+
+
+#####################################
+#	Desktop SECTION
+#####################################
+# My Personal Preferences for a desktop install
+if [ "$my_type" = "desktop" ]; then
+	apt-get -y install scite mysql-query-browser phpmyadmin k3b krename vlc picard
+
+fi
+
+#####################################
+#	xubuntu SECTION
+#####################################
+# My Personal Preferences for a desktop install
+if [ "$my_type" = "xubuntu" ]; then
+
+	#this part mirrors desktop (but with heavy apps removed)
+	apt-get -y install scite phpmyadmin 
+
+	#just for xubuntu
+	apt-get -y install system-config-samba gvfs-backends chromium-browser libreoffice
+fi 
+
 #####################################
 #	Done
 #####################################
+
+#Clean things up
+apt-get -y upgrade
+apt-get autoclean
+apt-get clean
+
 more <<EOT 
 *****************
 All DONE!
