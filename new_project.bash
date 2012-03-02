@@ -1,7 +1,7 @@
 #!/bin/bash
 # Build Project Directories
 # v3.0
-# Last Updated: Dec 28, 2011
+# Last Updated: Mar 2, 2012
 # Documentation: 
 # http://www.nickyeoman.com/blog/system-administration/18-project-directory-setup
 
@@ -9,6 +9,8 @@
 # Ubuntu/debian:
 # sudo apt-get install php-cli git-core svn unzip
 # You also need an internet connection
+
+#Use like this: bash new_project.bash domainName.com
 
 ##
 # Variables
