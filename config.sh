@@ -41,7 +41,7 @@ cd $scriptDir #back to start
 
 #Permissions
 cd ../
-chown -R www-data:www-data html/
+chown -R www-data:www-data public/
 cd $scriptDir #back to start
 
 #Done

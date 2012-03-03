@@ -209,3 +209,8 @@ Notes:
 ****************************************
 
 xtalkToMex
+
+#bugs
+# last echo doesn't show
+# vanilla doesn't extract (should be fixed)
+# piwik doesn't download

@@ -5,7 +5,7 @@ http://download.wikimedia.org/mediawiki/1.18/mediawiki-1.18.1.tar.gz
 -O atrium-1-2.tar.gz http://openatrium.com/sites/openatrium.com/files/atrium_releases/atrium-1-2.tgz
 http://downloads.sourceforge.net/gallery/gallery-3.0.2.zip
 http://downloads.sourceforge.net/project/mantisbt/mantis-stable/1.2.8/mantisbt-1.2.8.tar.gz
-http://vanillaforums.org/uploads/addons/TI7V5BI4HCOC.zip
+-O vanilla.zip http://vanillaforums.org/uploads/addons/TI7V5BI4HCOC.zip
 -O codeigniter.zip http://codeigniter.com/download.php
 -O wordpress.zip http://wordpress.org/latest.zip
 -O piwik.zip http://piwik.org/latest.zip
