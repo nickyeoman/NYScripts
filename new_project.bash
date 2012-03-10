@@ -1,7 +1,7 @@
 #!/bin/bash
 # Build Project Directories
-# v3.0
-# Last Updated: Mar 2, 2012
+# v3.1
+# Last Updated: Mar 8, 2012
 # Documentation: 
 # http://www.nickyeoman.com/blog/system-administration/18-project-directory-setup
 
@@ -17,7 +17,7 @@
 ##
 	projectDir=/git #full path to install directory
 	salt=$RANDOM #Change this to something static for recoverable passwords
-	defaultInstall=joomla #lib directory to move to the public directory
+	defaultInstall=sphider-1.3.5 #lib directory to move to the public directory
 
 	#Project Domain
 	if [ -z "$1" ]; then
@@ -69,16 +69,16 @@ DROP USER '$dbuser'@'localhost';
 GRANT ALL PRIVILEGES ON $dbname.* to '$dbuser'@'localhost' IDENTIFIED BY '$dbpass';
 xFileconfigsqlx
 #----------End here document-----------#
-	cd $projectDir/$domain
+	
 
 ##
 # Create sample symlink
 ##
-	cd scripts
+	cd $projectDir/$domain/scripts
 #--------Begin here document-----------#
 cat <<xFileconfigshx > symlink.sh
 # Sample symlinik.sh file
-# NOTE: lib dirs will have to be renamed for this to work (remove version numbers from software)
+# NOTE: this is just a sample file
 cd ../public
 ln -s ../lib/atrium collaboration
 ln -s ../lib/drupal drupal
@@ -99,12 +99,12 @@ ln -s ../htaccess .htaccess
 
 xFileconfigshx
 #----------End here document-----------#
-	cd $projectDir/$domain
+	
 
 ##
 # Create Apache config file (config.sh uses this)
 ##
-	cd apache
+	cd $projectDir/$domain/apache
 #--------Begin here document-----------#	
 cat <<xFileconfigshx > $domain
 <VirtualHost *:80>
@@ -125,12 +125,12 @@ cat <<xFileconfigshx > $domain
 
 xFileconfigshx
 #----------End here document-----------#
-	cd $projectDir/$domain
+	
 
 ##
 #Pull CMSes
 ##
-	cd lib
+	cd $projectDir/$domain/lib
 	
 	wget https://raw.github.com/nickyeoman/NYScripts/master/cms-latest.txt
 	
@@ -147,7 +147,7 @@ xFileconfigshx
 	  tar zxf $filename
 	done
 	
-	rm *.tar.gz #done with tars
+	#rm *.tar.gz #done with tars
 	
 	#extract tarbombs
 	for filename in *.tarbomb
@@ -171,6 +171,9 @@ xFileconfigshx
 	
 	#remove non directories
 	rm *.txt *.html
+	
+	#fix opencart
+	mv upload opencart
 
 	cd $projectDir/$domain
 
@@ -182,9 +185,9 @@ xFileconfigshx
 ##
 # GIT
 ##
-	git init
-	git add *
-	git commit -a -m"Used nick's new project script"
+	#git init
+	#git add *
+	#git commit -a -m"Used nick's new project script"
 
 ##
 # All Done
@@ -203,6 +206,7 @@ Databse password = $dbpass
 (you can refer to config.sql for this info)
 
 Notes: 
+* You can now git init
 * Your symlink file won't work without renaming lib dirs
 * You can now run config.sh to install to server (as root)
 * It's recommended to remove any lib dirs your not using (for space)
@@ -212,5 +216,5 @@ xtalkToMex
 
 #bugs
 # last echo doesn't show
-# vanilla doesn't extract (should be fixed)
-# piwik doesn't download
+# piwik and sphider not downloading
+# update database dump to check for complimentary database dump file
