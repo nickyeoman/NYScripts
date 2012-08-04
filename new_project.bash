@@ -1,27 +1,33 @@
 #!/bin/bash
 # Build Project Directories
-# v3.1
-# Last Updated: Mar 8, 2012
+# v4.1
+# Last Updated: July 22, 2012
 # Documentation: 
 # http://www.nickyeoman.com/blog/system-administration/18-project-directory-setup
 
+#Use like this: bash new_project.bash domainName.com
+
+# CHANGELOG for 4.0
+# Modified to work with plesk on CentOS
+# dropped the use of symlinks for increased compatibility 
+# plesk has one click installs, so we are only installing Joomla now
+# We still want to run git so we are running from git/public instead of default httpdocs
+
 # REQUIREMENTS
 # Ubuntu/debian:
-# sudo apt-get install php-cli git-core svn unzip
+# sudo apt-get install php-cli
 # You also need an internet connection
-
-#Use like this: bash new_project.bash domainName.com
 
 ##
 # Variables
 ##
 	projectDir=/git #full path to install directory
 	salt=$RANDOM #Change this to something static for recoverable passwords
-	defaultInstall=sphider-1.3.5 #lib directory to move to the public directory
-
+	db_prefix="admin_"
+	
 	#Project Domain
 	if [ -z "$1" ]; then
-	  echo -n "What is the domain name for this project?"
+	  echo -n "What is the domain name for this project? [DomainName]"
 	  read domain
 	else
 	  domain=$1
@@ -34,15 +40,15 @@
 	#TODO: check for domain then error if exists
 	mkdir $domain
 	cd $projectDir/$domain
-	mkdir lib core-edits scripts sql bind apache 
+	mkdir core-edits scripts sql bind apache 
 	cd $projectDir/$domain
 
 ##
 # Grab Nick Yeoman's scripts
 ##
 	cd scripts
-	wget https://raw.github.com/nickyeoman/NYScripts/master/config.sh
 	wget https://raw.github.com/nickyeoman/NYScripts/master/database.bash
+	wget https://raw.github.com/nickyeoman/NYScripts/master/config.sh
 	cd $projectDir/$domain
 
 ##
@@ -51,8 +57,8 @@
 	cd sql
 	wget https://raw.github.com/nickyeoman/NYScripts/master/sha1.php
 	dbpass=`php sha1.php $domain $salt $salt` 
-	dbname=`echo $domain | sed 's/\(.*\)\..*/\1/'`
-	dbuser=`echo u$dbname`
+	dbname=`echo $db_prefix$domain | sed 's/\(.*\)\..*/\1/'`
+	dbuser=`echo $dbname`
 	rm sha1.php
 	
 #--------Begin here document-----------#
@@ -69,37 +75,6 @@ DROP USER '$dbuser'@'localhost';
 GRANT ALL PRIVILEGES ON $dbname.* to '$dbuser'@'localhost' IDENTIFIED BY '$dbpass';
 xFileconfigsqlx
 #----------End here document-----------#
-	
-
-##
-# Create sample symlink
-##
-	cd $projectDir/$domain/scripts
-#--------Begin here document-----------#
-cat <<xFileconfigshx > symlink.sh
-# Sample symlinik.sh file
-# NOTE: this is just a sample file
-cd ../public
-ln -s ../lib/atrium collaboration
-ln -s ../lib/drupal drupal
-ln -s ../lib/gallery3 photos
-ln -s ../lib/mantis bugs
-ln -s ../lib/mediawiki wiki
-ln -s ../lib/opencart shop
-ln -s ../lib/piwik analytics
-ln -s ../lib/vanilla forum
-ln -s ../lib/wordpress wordpress
-
-#Sample Core Edits
-mv configuration.php ../core-edits
-ln -s ../core-edits/configuration.php
-
-mv htaccess.txt ../core-edits/htaccess
-ln -s ../htaccess .htaccess
-
-xFileconfigshx
-#----------End here document-----------#
-	
 
 ##
 # Create Apache config file (config.sh uses this)
@@ -126,95 +101,37 @@ cat <<xFileconfigshx > $domain
 xFileconfigshx
 #----------End here document-----------#
 	
-
 ##
-#Pull CMSes
+# Install Joomla to Public
 ##
-	cd $projectDir/$domain/lib
+	mkdir $projectDir/$domain/public
+	cd $projectDir/$domain/public
 	
-	wget https://raw.github.com/nickyeoman/NYScripts/master/cms-latest.txt
-	
-	cat cms-latest.txt | while read line
-	do
-		wget $line
-	done
-	
-	rm cms-latest.txt
-	
-	#extract tarballs
-	for filename in *.tar.gz
-	do
-	  tar zxf $filename
-	done
-	
-	#rm *.tar.gz #done with tars
-	
-	#extract tarbombs
-	for filename in *.tarbomb
-	do
-		folder=${filename%%.*}
-		mkdir $folder
-		mv $filename $folder/.
-		cd $folder
-		tar zxf $filename
-		rm *.tarbomb
-		cd ..
-	done
-	
-	#extract zips
-	for filename in *.zip
-	do
-	  unzip $filename
-	done
-	
-	rm *.zip #done with zips
-	
-	#remove non directories
-	rm *.txt *.html
-	
-	#fix opencart
-	mv upload opencart
-
+	wget http://joomlacode.org/gf/download/frsrelease/17173/74757/Joomla_2.5.6-Stable-Full_Package.tar.gz
+	tar zxf Joomla_2.5.6-Stable-Full_Package.tar.gz
+	rm -rf *.tar.gz
 	cd $projectDir/$domain
-
-##
-# Move default install to public
-##
-	mv lib/$defaultInstall public
-
-##
-# GIT
-##
-	#git init
-	#git add *
-	#git commit -a -m"Used nick's new project script"
 
 ##
 # All Done
 ##
 
-echo <<xtalkToMex
-
+cat <<xtalkToMex
 
 ****************************************
 Installation Finished
 Your domain ($domain) is setup
-Directory               = $projectDir/$domain
-Database name     = $dbname
-Database user       = $dbuser
+Directory = $projectDir/$domain
+Database name = $dbname
+Database user = $dbuser
 Databse password = $dbpass
 (you can refer to config.sql for this info)
 
 Notes: 
-* You can now git init
-* Your symlink file won't work without renaming lib dirs
-* You can now run config.sh to install to server (as root)
-* It's recommended to remove any lib dirs your not using (for space)
+* Fix permissions
+* git init
+* You can now run config.sh on your debian based dev server (as root)
 ****************************************
-
 xtalkToMex
 
-#bugs
-# last echo doesn't show
-# piwik and sphider not downloading
-# update database dump to check for complimentary database dump file
+exit
