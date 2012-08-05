@@ -51,7 +51,7 @@ sudo -u gitlab bundle exec rake environment resque:work QUEUE=* RAILS_ENV=produc
 # Gitlab start script
 ./resque.sh
 
-sudo apt-get install nginx
+sudo apt-get install -y nginx
 
 cd /home/gitlab/gitlab
 sudo -u gitlab cp config/unicorn.rb.orig config/unicorn.rb
@@ -68,9 +68,10 @@ sudo sudo chmod 644 /etc/nginx/nginx.conf
 /etc/init.d/nginx restart
 
 #pull one more file
+cd ~
 wget https://raw.github.com/nickyeoman/NYScripts/master/nginx.init
-sudo chown root:root /etc/nginx/nginx.init
-sudo sudo chmod 755 /etc/nginx/nginx.init
+sudo chown root:root nginx.init
+sudo chmod 755 nginx.init
 sudo mv nginx.init /etc/init.d/gitlab
 
 #gitlab autostart
