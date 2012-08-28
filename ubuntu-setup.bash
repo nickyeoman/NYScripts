@@ -33,7 +33,7 @@ apt-get -y install php5-imagick php5-gd php5-cli
 #apt-get -y install openssh-server openssh-client #usually done for you already
 
 # Development tools
-apt-get -y install subversion nmap git-core htop
+apt-get -y install subversion nmap git-core htop p7zip-full
 
 #magento
 apt-get -y install curl php5-curl php5-mcrypt php5-mhash php5-dev php-pear 

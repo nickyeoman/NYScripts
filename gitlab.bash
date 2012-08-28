@@ -59,13 +59,14 @@ sudo -u gitlab bundle exec unicorn_rails -c config/unicorn.rb -E production -D
 
 #added by nick for easy access
 wget https://raw.github.com/nickyeoman/NYScripts/master/nginx.conf
+cd /tmp
+sudo chown root:root nginx.conf
+sudo chmod 644 nginx.conf
 sudo mv  /etc/nginx/nginx.conf  /etc/nginx/nginx.conf.bak
 sudo mv nginx.conf /etc/nginx/nginx.conf
-sudo chown root:root /etc/nginx/nginx.conf
-sudo sudo chmod 644 /etc/nginx/nginx.conf
 
 #restart
-/etc/init.d/nginx restart
+sudo /etc/init.d/nginx restart
 
 #pull one more file
 cd ~
