@@ -1,7 +1,7 @@
 #!/bin/bash
 # Build Project Directories
-# v4.1
-# Last Updated: July 22, 2012
+# v4.3
+# Last Updated: Dec 2, 2012
 # Documentation: 
 # http://www.nickyeoman.com/blog/system-administration/18-project-directory-setup
 
@@ -40,8 +40,7 @@
 	#TODO: check for domain then error if exists
 	mkdir $domain
 	cd $projectDir/$domain
-	mkdir core-edits scripts sql bind apache 
-	cd $projectDir/$domain
+	mkdir scripts sql apache
 
 ##
 # Grab Nick Yeoman's scripts
@@ -107,9 +106,9 @@ xFileconfigshx
 	mkdir $projectDir/$domain/public
 	cd $projectDir/$domain/public
 	
-	wget http://joomlacode.org/gf/download/frsrelease/17173/74757/Joomla_2.5.6-Stable-Full_Package.tar.gz
-	tar zxf Joomla_2.5.6-Stable-Full_Package.tar.gz
-	rm -rf *.tar.gz
+	wget http://joomlacode.org/gf/download/frsrelease/17715/77262/Joomla_2.5.8-Stable-Full_Package.zip
+	unzip -e Joomla_2.5.8-Stable-Full_Package.zip
+	rm -rf *.zip
 	cd $projectDir/$domain
 
 ##
