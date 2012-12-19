@@ -38,6 +38,11 @@ apt-get -y install subversion nmap git-core htop p7zip-full
 #magento
 apt-get -y install curl php5-curl php5-mcrypt php5-mhash php5-dev php-pear 
 
+#owncloud
+apt-get -y install php5-json php-xml php-mbstring php5-zip php5-sqlite libcurl3 libcurl3-dev php5-curl php-pdo
+
+#can't find php-xml php-mbstring php5-zip php-pdo
+
 #email 
 apt-get -y install sendmail 
 
@@ -65,8 +70,7 @@ fi
 #####################################
 # My Personal Preferences for a desktop install
 if [ "$my_type" = "desktop" ]; then
-	apt-get -y install scite mysql-query-browser phpmyadmin k3b krename vlc picard
-
+	apt-get -y install scite phpmyadmin krename vlc picard
 fi
 
 #####################################
