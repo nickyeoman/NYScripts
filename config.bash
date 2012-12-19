@@ -1,10 +1,9 @@
 #!/bin/bash
-# Version 1.1
+# Version 1.2
 
-#this will ensure your project is in working order.  
-# Just Git pull then run this
-# Then if you require edit /etc/hosts
-# All done
+# This will ensure your project is in working order on a Ubuntu system
+# The intent is to git pull then run this
+# If on dev you need to edit /etc/hosts
 
 #check to ensure root
 if [ "$(id -u)" != "0" ]; then
@@ -22,7 +21,7 @@ cd $scriptDir #back to start
 
 #Ensure database user
 cd ../sql
-echo "Database Password:"
+echo "Root Database Password:"
 mysql -h localhost -u root -p < ../sql/config.sql
 
 #Install Database
