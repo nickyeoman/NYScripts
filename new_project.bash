@@ -59,7 +59,7 @@
 		rm sha1.php
 		cd $projectDir
 	else
-		dbuser=$4
+		dbpass=$4
 	fi
 
 ##
@@ -79,7 +79,7 @@ xFileupdatex
 
 	
 #--------Begin here document-----------#
-cat <<xFileconfigsqlx > config.sql
+cat <<xFileconfigsqlx > $projectDir/$domain/sql/config.sql
 -- Remove Existing Database
 DROP DATABASE IF EXISTS $dbname;
 -- Create database
@@ -97,7 +97,7 @@ xFileconfigsqlx
 # Create Apache config file (config.sh uses this)
 ##
 	cd $projectDir/$domain/apache
-	$project=`echo $domain | sed 's/\(.*\)\..*/\1/'`
+	project=`echo $domain | sed 's/\(.*\)\..*/\1/'`
 #--------Begin here document-----------#	
 cat <<xFileconfigshx > $domain
 <VirtualHost *:80>
@@ -128,6 +128,11 @@ xFileconfigshx
 	wget $sinstall
 	unzip -e *.zip
 	rm -rf *.zip
+	cd $projectDir/$domain
+	
+## Permissions
+	cd $projectDir/$domain/scripts
+	chmod u+x *
 	cd $projectDir/$domain
 	
 ##
