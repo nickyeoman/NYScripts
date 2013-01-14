@@ -1,7 +1,7 @@
 #!/bin/bash
 # Build Project Directories
-# v5.0
-# Last Updated: Dec 19, 2012
+# v5.1
+# Last Updated: Jan 14, 2012
 # Documentation: 
 # http://www.nickyeoman.com/blog/system-administration/18-project-directory-setup
 
@@ -20,7 +20,7 @@
 	salt=$RANDOM #Change this to something static for recoverable passwords
 	sinstall=http://joomlacode.org/gf/download/frsrelease/17715/77262/Joomla_2.5.8-Stable-Full_Package.zip
 	
-	#Project Domain
+#Project Domain
 	if [ -z "$1" ]; then
 	  echo -n "What is the domain name for this project? [DomainName]"
 	  read domain
@@ -28,15 +28,18 @@
 	  domain=$1
 	fi
 	
-	##
-	# Create Directories
-	##
+##
+# Create Directories
+##
 	cd $projectDir
 	#TODO: check for domain then error if exists
 	mkdir $domain
 	cd $projectDir/$domain
 	mkdir scripts sql apache
-	
+
+##
+# Database info
+##
 	#db name
 	if [ -z "$2" ]; then
 		dbname=`echo $domain | sed 's/\(.*\)\..*/\1/'`
@@ -65,7 +68,7 @@
 ##
 # Grab Nick Yeoman's scripts
 ##
-	cd scripts
+	cd $projectDir/$domain/scripts
 	wget https://raw.github.com/nickyeoman/NYScripts/master/database.bash
 	wget https://raw.github.com/nickyeoman/NYScripts/master/config.bash
 	cat <<xFiledumpx > dump_db.bash
@@ -78,7 +81,7 @@ xFileupdatex
 	cd $projectDir/$domain
 
 	
-#--------Begin here document-----------#
+#--------Begin Config sql document-----------#
 cat <<xFileconfigsqlx > $projectDir/$domain/sql/config.sql
 -- Remove Existing Database
 DROP DATABASE IF EXISTS $dbname;
@@ -91,7 +94,7 @@ DROP USER '$dbuser'@'localhost';
 -- Create the correct user with correct password
 GRANT ALL PRIVILEGES ON $dbname.* to '$dbuser'@'localhost' IDENTIFIED BY '$dbpass';
 xFileconfigsqlx
-#----------End here document-----------#
+#----------End document-----------#
 
 ##
 # Create Apache config file (config.sh uses this)
