@@ -1,29 +1,29 @@
 #!/bin/bash
 # Build Project Directories
-# v5.1
-# Last Updated: Jan 14, 2012
+# v6.0
+# Last Updated: Apr 28, 2013
 # Documentation: 
 # http://www.nickyeoman.com/blog/system-administration/18-project-directory-setup
 
 #Use like this: bash new_project.bash domainName.com dbname dbuser dbpass
 
 # REQUIREMENTS
-# Joomla 2.5.8
+# Joomla 2.5.11
 # Ubuntu/debian:
-# sudo apt-get install php-cli
-# You also need an internet connection
+# sudo apt-get install php-cli zenity
+# You also need an internet connection (to pull from github)
 
 ##
 # Variables
 ##
 	projectDir=/git #full path to install directory
 	salt=$RANDOM #Change this to something static for recoverable passwords
-	sinstall=http://joomlacode.org/gf/download/frsrelease/17715/77262/Joomla_2.5.8-Stable-Full_Package.zip
+	sinstall=http://joomlacode.org/gf/download/frsrelease/18322/80354/Joomla_2.5.11-Stable-Full_Package.zip
 	
 #Project Domain
 	if [ -z "$1" ]; then
-	  echo -n "What is the domain name for this project? [DomainName]"
-	  read domain
+	  #echo -n "What is the domain name for this project? [DomainName]"
+	  domain=`zenity --entry --title="New Project Script" --text="What is the domain name for this project? [DomainName]"`
 	else
 	  domain=$1
 	fi
