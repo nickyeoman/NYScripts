@@ -1,14 +1,14 @@
 #!/bin/bash
 # Build Project Directories
-# v6.0
-# Last Updated: Apr 28, 2013
+# v7.3
+# Last Updated: Dec 28, 2013
 # Documentation: 
 # http://www.nickyeoman.com/blog/system-administration/18-project-directory-setup
 
 #Use like this: bash new_project.bash domainName.com dbname dbuser dbpass
 
 # REQUIREMENTS
-# Joomla 2.5.11
+# Joomla 3.2
 # Ubuntu/debian:
 # sudo apt-get install php-cli zenity
 # You also need an internet connection (to pull from github)
@@ -18,11 +18,14 @@
 ##
 	projectDir=/git #full path to install directory
 	salt=$RANDOM #Change this to something static for recoverable passwords
-	sinstall=http://joomlacode.org/gf/download/frsrelease/18322/80354/Joomla_2.5.11-Stable-Full_Package.zip
+	sinstall=http://joomlacode.org/gf/download/frsrelease/19007/134333/Joomla_3.2.1-Stable-Full_Package.zip
+	humans=http://frostybot.com/humans.txt
+	wmtools=http://frostybot.com/google5e5f3b5cfa769687.html
+	#TODO: Allow option to switch zenity on/off (use getopts)
 	
 #Project Domain
 	if [ -z "$1" ]; then
-	  #echo -n "What is the domain name for this project? [DomainName]"
+	  #echo -n "What is the domain name for this project? [DomainName]" #switched to zenity
 	  domain=`zenity --entry --title="New Project Script" --text="What is the domain name for this project? [DomainName]"`
 	else
 	  domain=$1
@@ -32,7 +35,15 @@
 # Create Directories
 ##
 	cd $projectDir
-	#TODO: check for domain then error if exists
+	
+	#check if dir exists
+	directory=$projectDir/$domain
+	if [ -d "$directory" ]; then
+		zenity --error --text="$directory already exists"
+		exit 0
+	fi
+	
+	#create folders
 	mkdir $domain
 	cd $projectDir/$domain
 	mkdir scripts sql apache
@@ -42,7 +53,16 @@
 ##
 	#db name
 	if [ -z "$2" ]; then
-		dbname=`echo $domain | sed 's/\(.*\)\..*/\1/'`
+		notld=`echo $domain | sed 's/\(.*\)\..*/\1/'` #no tld
+		#make it pretty for plesk (optional)
+		len=${#notld}
+		if [ $len -gt 7 ]; then
+			firstpart=`echo $notld | cut -c1-7`
+			dbname=${firstpart}_joomla
+		else
+			dbname=${notld}_joomla
+			
+		fi
 	else
 		dbname=$2
 	fi
@@ -50,6 +70,14 @@
 	#db user
 	if [ -z "$3" ]; then
 		dbuser=`echo $dbname`
+		#make it pretty for plesk (optional)
+		len=${#notld}
+		if [ $len -gt 5 ]; then
+			firstpart=`echo "$dbuser" | cut -c1-5`
+			dbuser=${firstpart}_joomla
+		else
+			dbuser=${notld}_joomla
+		fi
 	else
 		dbuser=$3
 	fi
@@ -59,6 +87,7 @@
 		cd sql
 		wget https://raw.github.com/nickyeoman/NYScripts/master/sha1.php
 		dbpass=`php sha1.php $domain $salt $salt` 
+		dbpass=`echo "$dbpass" | cut -c1-16`
 		rm sha1.php
 		cd $projectDir
 	else
@@ -132,6 +161,17 @@ xFileconfigshx
 	unzip -e *.zip
 	rm -rf *.zip
 	cd $projectDir/$domain
+
+
+##
+# Pull stuff from Frostybot.com
+##
+cd $projectDir/$domain/public
+
+wget $humans							#humans.txt
+wget $wmtools #Google webmaster tools
+
+cd $projectDir/$domain
 	
 ## Permissions
 	cd $projectDir/$domain/scripts
@@ -149,11 +189,9 @@ Installation Finished
 Your domain ($domain) is setup
 
 Notes: 
-* Run config.bash to setup database
-* Update .htaccess (php, non-www, redirects)
-* Go to the web to run the web installer
-* Install frosty apps
-* git init and push
+1.) Run config.bash to setup database
+2.) Go to the web to run the Joomla web installer $notld.ny
+3.) git init and push
 ****************************************
 xtalkToMex
 
