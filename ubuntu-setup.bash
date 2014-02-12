@@ -1,6 +1,6 @@
 #!/bin/bash
-# Install script for a clean install of Ubuntu 11.10
-# v3.2
+# Install script for a clean install of Ubuntu 13.10
+# v3.3
 # Feb 10 2012
 # NickYeoman.com
 
@@ -28,6 +28,8 @@ apt-get -y update
 # Install Lamp
 apt-get -y install lamp-server^ 
 apt-get -y install php5-imagick php5-gd php5-cli
+#for joomla
+apt-get -y install php5-json php5-curl unzip
 
 # Install Open SSH
 #apt-get -y install openssh-server openssh-client #usually done for you already

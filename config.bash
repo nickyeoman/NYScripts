@@ -1,5 +1,6 @@
 #!/bin/bash
-# Version 1.2
+# Version 1.3
+# for Ubuntu 13.10 (should be backwards compatable)
 
 # This will ensure your project is in working order on a Ubuntu system
 # The intent is to git pull then run this
@@ -33,8 +34,8 @@ cd ../apache
 apacheDir=${PWD}
 cd /etc/apache2/sites-available
 rm -f $domainName
-ln -s $apacheDir/$domainName
-a2ensite $domainName
+ln -s $apacheDir/$domainName $domainName.conf
+a2ensite $domainName.conf
 service apache2 reload
 cd $scriptDir #back to start
 

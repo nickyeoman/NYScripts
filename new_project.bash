@@ -1,7 +1,7 @@
 #!/bin/bash
 # Build Project Directories
-# v7.3
-# Last Updated: Dec 28, 2013
+# v7.4
+# Last Updated: Feb 10, 2014
 # Documentation: 
 # http://www.nickyeoman.com/blog/system-administration/18-project-directory-setup
 
@@ -18,7 +18,7 @@
 ##
 	projectDir=/git #full path to install directory
 	salt=$RANDOM #Change this to something static for recoverable passwords
-	sinstall=http://joomlacode.org/gf/download/frsrelease/19007/134333/Joomla_3.2.1-Stable-Full_Package.zip
+	sinstall=http://joomlacode.org/gf/download/frsrelease/19143/157504/Joomla_3.2.2-Stable-Full_Package.zip
 	humans=http://frostybot.com/humans.txt
 	wmtools=http://frostybot.com/google5e5f3b5cfa769687.html
 	#TODO: Allow option to switch zenity on/off (use getopts)
