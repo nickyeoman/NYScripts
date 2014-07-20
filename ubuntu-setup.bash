@@ -30,6 +30,8 @@ apt-get -y install lamp-server^
 apt-get -y install php5-imagick php5-gd php5-cli
 #for joomla
 apt-get -y install php5-json php5-curl unzip
+#for joomla related apps (sobi)
+apt-get -y install php5-xsl php5-sqlite php5-tidy
 
 # Install Open SSH
 #apt-get -y install openssh-server openssh-client #usually done for you already

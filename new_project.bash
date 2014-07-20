@@ -1,14 +1,14 @@
 #!/bin/bash
 # Build Project Directories
-# v7.4
-# Last Updated: Feb 10, 2014
+# v7.6
+# Last Updated: Jul 19, 2014
 # Documentation: 
 # http://www.nickyeoman.com/blog/system-administration/18-project-directory-setup
 
 #Use like this: bash new_project.bash domainName.com dbname dbuser dbpass
 
 # REQUIREMENTS
-# Joomla 3.2
+# Joomla 3.3
 # Ubuntu/debian:
 # sudo apt-get install php-cli zenity
 # You also need an internet connection (to pull from github)
@@ -18,7 +18,7 @@
 ##
 	projectDir=/git #full path to install directory
 	salt=$RANDOM #Change this to something static for recoverable passwords
-	sinstall=http://joomlacode.org/gf/download/frsrelease/19143/157504/Joomla_3.2.2-Stable-Full_Package.zip
+	sinstall=http://joomlacode.org/gf/download/frsrelease/19524/159413/Joomla_3.3.1-Stable-Full_Package.zip
 	humans=http://frostybot.com/humans.txt
 	wmtools=http://frostybot.com/google5e5f3b5cfa769687.html
 	#TODO: Allow option to switch zenity on/off (use getopts)
@@ -129,20 +129,19 @@ xFileconfigsqlx
 # Create Apache config file (config.sh uses this)
 ##
 	cd $projectDir/$domain/apache
-	project=`echo $domain | sed 's/\(.*\)\..*/\1/'`
+	project=`echo $domain.conf | sed 's/\(.*\)\..*/\1/'`
 #--------Begin here document-----------#	
-cat <<xFileconfigshx > $domain
+cat <<xFileconfigshx > $domain.conf
 <VirtualHost *:80>
 	ServerName $domain
 	ServerAlias www.$domain *.$domain $project.ny $project.fb
 	DocumentRoot $projectDir/$domain/public/
-	ServerAdmin webmaster@$domain
+	ServerAdmin social@frostybot.com
 	
 	<Directory $projectDir/$domain/public/>
-		Options Indexes FollowSymLinks MultiViews
+		Options +Indexes +FollowSymLinks -MultiViews
 		AllowOverride All
-		Order allow,deny
-		allow from all
+		Require all granted
 	</Directory>
 	
 	ErrorLog /var/log/apache2/error_$domain.log
@@ -168,7 +167,7 @@ xFileconfigshx
 ##
 cd $projectDir/$domain/public
 
-wget $humans							#humans.txt
+wget $humans	#humans.txt
 wget $wmtools #Google webmaster tools
 
 cd $projectDir/$domain
