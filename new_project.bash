@@ -112,6 +112,10 @@ xFileupdatex
 	
 #--------Begin Config sql document-----------#
 cat <<xFileconfigsqlx > $projectDir/$domain/sql/config.sql
+-- DB Name: $dbname
+-- DB User: $dbuser
+-- DB Pass: $dbpass
+
 -- Remove Existing Database
 DROP DATABASE IF EXISTS $dbname;
 -- Create database
