@@ -135,7 +135,7 @@ xFileconfigsqlx
 # Create Apache config file (config.sh uses this)
 ##
 	cd $projectDir/$domain/apache
-	project=`echo $domain.conf | sed 's/\(.*\)\..*/\1/'`
+	project=`echo $domain | sed 's/\(.*\)\..*/\1/'`
 #--------Begin here document-----------#	
 cat <<xFileconfigshx > $domain.conf
 <VirtualHost *:80>
@@ -181,7 +181,7 @@ cd $projectDir/$domain
 ##
 # README file for gitlab
 ##
-cat <<xFilereadmex > README
+cat <<xFilereadmex > README.md
 # Info for $domain)
 
 # INSTALLATION
