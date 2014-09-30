@@ -1,7 +1,7 @@
 #!/bin/bash
 # Build Project Directories
-# v7.7
-# Last Updated: Aug 19, 2014
+# v7.8
+# Last Updated: Sep 29, 2014
 # Documentation: 
 # http://www.nickyeoman.com/blog/system-administration/18-project-directory-setup
 
@@ -18,9 +18,11 @@
 ##
 	projectDir=/git #full path to install directory
 	salt=$RANDOM #Change this to something static for recoverable passwords
-	sinstall=http://joomlacode.org/gf/download/frsrelease/19665/160049/Joomla_3.3.3-Stable-Full_Package.zip
+	sinstall=http://joomlacode.org/gf/download/frsrelease/19752/160963/Joomla_3.3.4-Stable-Full_Package.zip
 	humans=http://frostybot.com/humans.txt
 	wmtools=http://frostybot.com/google5e5f3b5cfa769687.html
+	linuxusername=nick
+	linuxgroup=nick
 	#TODO: Allow option to switch zenity on/off (use getopts)
 	
 #Project Domain
@@ -46,7 +48,7 @@
 	#create folders
 	mkdir $domain
 	cd $projectDir/$domain
-	mkdir scripts sql apache
+	mkdir scripts sql apache docs
 
 ##
 # Database info
@@ -175,7 +177,34 @@ wget $humans	#humans.txt
 wget $wmtools #Google webmaster tools
 
 cd $projectDir/$domain
-	
+
+##
+# README file for gitlab
+##
+cat <<xFilereadmex > README
+# Info for $domain)
+
+# INSTALLATION
+
+* Have your root mysql username and password ready
+* run 'sudo bash config.bash' to create the database
+* Configure your DNS or /etc/hosts file
+* Go to the domain and run the Joomla web installer
+* Dump the database 'sudo bash dump_db.bash'
+* Create the git repo 'git init'
+* Add your remote 
+* Push to remote
+
+# Databse config
+
+* DB Name: $dbname
+* DB User: $dbuser
+* DB Pass: $dbpass
+
+
+xFilereadmex
+#----------End here document-----------#
+
 ## Permissions
 	cd $projectDir/$domain/scripts
 	chmod u+x *
@@ -191,10 +220,8 @@ cat <<xtalkToMex
 Installation Finished
 Your domain ($domain) is setup
 
-Notes: 
-1.) Run config.bash to setup database
-2.) Go to the web to run the Joomla web installer $notld.ny
-3.) git init and push
+Go to $projectDir/$domain and open 
+README.md for more info 
 ****************************************
 xtalkToMex
 
