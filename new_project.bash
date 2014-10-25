@@ -102,6 +102,7 @@
 	cd $projectDir/$domain/scripts
 	wget https://raw.github.com/nickyeoman/NYScripts/master/database.bash
 	wget https://raw.github.com/nickyeoman/NYScripts/master/config.bash
+	wget https://raw.github.com/nickyeoman/NYScripts/master/remove.bash
 	cat <<xFiledumpx > dump_db.bash
 ./database.bash d $dbname $dbuser $dbpass localhost
 xFiledumpx
@@ -129,6 +130,15 @@ DROP USER '$dbuser'@'localhost';
 -- Create the correct user with correct password
 GRANT ALL PRIVILEGES ON $dbname.* to '$dbuser'@'localhost' IDENTIFIED BY '$dbpass';
 xFileconfigsqlx
+#----------End document-----------#
+
+#--------Begin Config sql document-----------#
+cat <<xFileremovesqlx > $projectDir/$domain/sql/remove.sql
+-- Remove Existing Database
+DROP DATABASE IF EXISTS $dbname;
+-- Drop the user
+DROP USER '$dbuser'@'localhost';
+xFileremovesqlx
 #----------End document-----------#
 
 ##
