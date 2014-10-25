@@ -1,7 +1,7 @@
 #!/bin/bash
 # Build Project Directories
-# v7.8
-# Last Updated: Sep 29, 2014
+# v7.9
+# Last Updated: Oct. 24, 2014
 # Documentation: 
 # http://www.nickyeoman.com/blog/system-administration/18-project-directory-setup
 
