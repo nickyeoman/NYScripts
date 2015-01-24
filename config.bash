@@ -1,6 +1,6 @@
 #!/bin/bash
-# Version 1.4
-# for Ubuntu 13.10 (should be backwards compatable)
+# Version 1.5
+# for Ubuntu Server 14.04
 
 # This will ensure your project is in working order on a Ubuntu system
 # The intent is to git pull then run this
@@ -41,6 +41,9 @@ cd $scriptDir #back to start
 #Permissions
 cd ../
 chown -R www-data:www-data public/
+cd public
+find . -type f -exec chmod 644 {} \
+find . -type d -exec chmod 755 {} \
 cd $scriptDir #back to start
 
 #Done
