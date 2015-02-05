@@ -1,34 +1,33 @@
 #!/bin/bash
 # Build Project Directories
-# v7.9
-# Last Updated: Oct. 24, 2014
+# v8.0
+# Last Updated: Feb. 5, 2015
 # Documentation: 
 # http://www.nickyeoman.com/blog/system-administration/18-project-directory-setup
 
 #Use like this: bash new_project.bash domainName.com dbname dbuser dbpass
 
 # REQUIREMENTS
-# Joomla 3.3
+# Joomla 3.3.6
 # Ubuntu/debian:
-# sudo apt-get install php-cli zenity
-# You also need an internet connection (to pull from github)
+# You need an internet connection (to pull from github)
 
 ##
 # Variables
 ##
 	projectDir=/git #full path to install directory
 	salt=$RANDOM #Change this to something static for recoverable passwords
-	sinstall=http://joomlacode.org/gf/download/frsrelease/19752/160963/Joomla_3.3.4-Stable-Full_Package.zip
-	humans=http://frostybot.com/humans.txt
-	wmtools=http://frostybot.com/google5e5f3b5cfa769687.html
+	sinstall=https://github.com/joomla/joomla-cms/releases/download/3.3.6/Joomla_3.3.6-Stable-Full_Package.zip
+	htacc=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/htaccess-joomla-3.3.6.txt
+	humans=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/humans.txt
+	wmtools=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/google5e5f3b5cfa769687.html
 	linuxusername=nick
 	linuxgroup=nick
-	#TODO: Allow option to switch zenity on/off (use getopts)
 	
 #Project Domain
 	if [ -z "$1" ]; then
-	  #echo -n "What is the domain name for this project? [DomainName]" #switched to zenity
-	  domain=`zenity --entry --title="New Project Script" --text="What is the domain name for this project? [DomainName]"`
+	  echo -n "What is the domain name for this project? [DomainName]" 
+	  read domain
 	else
 	  domain=$1
 	fi
@@ -41,7 +40,7 @@
 	#check if dir exists
 	directory=$projectDir/$domain
 	if [ -d "$directory" ]; then
-		zenity --error --text="$directory already exists"
+		echo "$directory already exists"
 		exit 0
 	fi
 	
@@ -185,6 +184,14 @@ cd $projectDir/$domain/public
 
 wget $humans	#humans.txt
 wget $wmtools #Google webmaster tools
+wget $htacc #get custom google htaccess
+mv htaccess-joomla-3.3.6.txt .htaccess
+
+# Pump in db info
+cd installation/view/database/tmpl
+sed -i "s/getInput('db_user')/getInput('db_user',null,'$dbuser')/g" default.php
+sed -i "s/getInput('db_pass')/getInput('db_pass',null,'$dbpass')/g" default.php
+sed -i "s/getInput('db_name')/getInput('db_name',null,'$dbname')/g" default.php
 
 cd $projectDir/$domain
 
@@ -210,6 +217,18 @@ cat <<xFilereadmex > README.md
 * DB Name: $dbname
 * DB User: $dbuser
 * DB Pass: $dbpass
+
+# DNS
+
+Cloudflare
+
+# Hosting
+
+Lamp Server
+
+# Email
+
+Fbemail.net
 
 
 xFilereadmex
