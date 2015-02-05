@@ -1,0 +1,19 @@
+humans.txt
+
+/* TEAMS */
+
+	Company: Frostybot Marketing Corp.
+	url: http://frostybot.com/
+
+	Programming: Nick Yeoman
+	url: http://www.NickYeoman.com/
+	From: Summerland, BC, Canada
+
+	Graphic & Web Design: Jon Couch
+	url: http://couchart.com
+	From: Nanimo, BC, Canada
+
+/* SITE */
+
+	tech: Joomla, Git, Ubuntu, Scite, Photoshop, Gimp
+	Doctype: HTML5
