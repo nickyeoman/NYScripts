@@ -185,8 +185,7 @@ cd $projectDir/$domain/public
 
 wget $humans	#humans.txt
 wget $wmtools #Google webmaster tools
-wget $htacc #get custom google htaccess
-mv $htacc .htaccess
+wget $htacc --output-document=.htaccess #get custom google htaccess
 
 # Pump in db info to installer
 cd installation/view/database/tmpl
