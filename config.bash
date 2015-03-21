@@ -1,5 +1,5 @@
 #!/bin/bash
-# Version 1.5
+# Version 1.6
 # for Ubuntu Server 14.04
 
 # This will ensure your project is in working order on a Ubuntu system
@@ -42,8 +42,9 @@ cd $scriptDir #back to start
 cd ../
 chown -R www-data:www-data public/
 cd public
-find . -type f -exec chmod 644 {} \
-find . -type d -exec chmod 755 {} \
+publicDir=${PWD}
+chmod 755 $(find . -type d)
+chmod 644 $(find . -type f)
 cd $scriptDir #back to start
 
 #Done

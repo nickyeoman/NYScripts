@@ -1,7 +1,7 @@
 #!/bin/bash
 # Build Project Directories
-# v8.0
-# Last Updated: Feb. 5, 2015
+# v8.1
+# Last Updated: Mar. 21, 2015
 # Documentation: 
 # http://www.nickyeoman.com/blog/system-administration/18-project-directory-setup
 
@@ -17,8 +17,8 @@
 ##
 	projectDir=/git #full path to install directory
 	salt=$RANDOM #Change this to something static for recoverable passwords
-	sinstall=https://github.com/joomla/joomla-cms/releases/download/3.3.6/Joomla_3.3.6-Stable-Full_Package.zip
-	htacc=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/htaccess-joomla-3.3.6.txt
+	sinstall=https://github.com/joomla/joomla-cms/releases/download/3.4.0/Joomla_3.4.0-Stable-Full_Package.zip
+	htacc=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/htaccess-joomla-3.4.txt
 	humans=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/humans.txt
 	wmtools=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/google5e5f3b5cfa769687.html
 	linuxusername=nick
@@ -48,6 +48,7 @@
 	mkdir $domain
 	cd $projectDir/$domain
 	mkdir scripts sql apache docs
+	mkdir sql/backup
 
 ##
 # Database info
@@ -203,8 +204,8 @@ cat <<xFilereadmex > README.md
 
 # INSTALLATION
 
-* Have your root mysql username and password ready
-* run 'sudo bash config.bash' to create the database
+* Have your root system and mysql username and password ready
+* run 'sudo bash config.bash' to install the database
 * Configure your DNS or /etc/hosts file
 * Go to the domain and run the Joomla web installer
 * Dump the database 'sudo bash dump_db.bash'
