@@ -186,9 +186,9 @@ cd $projectDir/$domain/public
 wget $humans	#humans.txt
 wget $wmtools #Google webmaster tools
 wget $htacc #get custom google htaccess
-mv htaccess-joomla-3.3.6.txt .htaccess
+mv $htacc .htaccess
 
-# Pump in db info
+# Pump in db info to installer
 cd installation/view/database/tmpl
 sed -i "s/getInput('db_user')/getInput('db_user',null,'$dbuser')/g" default.php
 sed -i "s/getInput('db_pass')/getInput('db_pass',null,'$dbpass')/g" default.php
