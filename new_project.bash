@@ -199,7 +199,7 @@ cd $projectDir/$domain
 # README file for gitlab
 ##
 cat <<xFilereadmex > README.md
-# Info for $domain)
+# Info for $domain
 
 # INSTALLATION
 
