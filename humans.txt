@@ -1,19 +1,17 @@
-humans.txt
+humans.txt (actually markdown)
+Last Updated: April 9, 2015
 
-/* TEAMS */
+# TEAMS
 
-	Company: Frostybot Marketing Corp.
-	url: http://frostybot.com/
+Company: [Frostybot Marketing Corp.](http://frostybot.com/)
 
-	Programming: Nick Yeoman
-	url: http://www.NickYeoman.com/
-	From: Summerland, BC, Canada
+## Programming 
+[Nick Yeoman](http://www.NickYeoman.com/), from Summerland, BC, Canada
 
-	Graphic & Web Design: Jon Couch
-	url: http://couchart.com
-	From: Nanimo, BC, Canada
+## Graphic & Web Design 
+[Jon Couch](http://couchart.com), from Kelowna, BC, Canada
 
-/* SITE */
+# TOOLS
 
-	tech: Joomla, Git, Ubuntu, Scite, Photoshop, Gimp
-	Doctype: HTML5
+HTML5, CSS3, Joomla, Git, Ubuntu, Scite, Brackets, Photoshop, Gimp
+

@@ -3,7 +3,7 @@
 # v1.0
 # Last Updated: Apr. 1, 2015
 # Documentation: 
-# pending
+# https://www.nickyeoman.com/blog/system-administration/202-mirror-a-website-with-wget
 
 # Domain
 if [ -z "$1" ]; then
