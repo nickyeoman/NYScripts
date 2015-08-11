@@ -1,14 +1,14 @@
 #!/bin/bash
 # Build Project Directories
-# v8.1
-# Last Updated: Mar. 21, 2015
+# v8.2
+# Last Updated: Aug. 11, 2015
 # Documentation: 
 # http://www.nickyeoman.com/blog/system-administration/18-project-directory-setup
 
 #Use like this: bash new_project.bash domainName.com dbname dbuser dbpass
 
 # REQUIREMENTS
-# Joomla 3.3.6
+# Joomla 3.4.3
 # Ubuntu/debian:
 # You need an internet connection (to pull from github)
 
@@ -17,9 +17,10 @@
 ##
 	projectDir=/git #full path to install directory
 	salt=$RANDOM #Change this to something static for recoverable passwords
-	sinstall=https://github.com/joomla/joomla-cms/releases/download/3.4.0/Joomla_3.4.0-Stable-Full_Package.zip
-	htacc=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/htaccess-joomla-3.4.txt
+	sinstall=https://github.com/joomla/joomla-cms/releases/download/3.4.3/Joomla_3.4.3-Stable-Full_Package.zip
+	htacc=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/htaccess.txt
 	humans=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/humans.txt
+	robots=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/robots.txt
 	wmtools=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/google5e5f3b5cfa769687.html
 	linuxusername=nick
 	linuxgroup=nick
@@ -184,6 +185,7 @@ xFileconfigshx
 cd $projectDir/$domain/public
 
 wget $humans	#humans.txt
+wget $robots #robots.txt
 wget $wmtools #Google webmaster tools
 wget $htacc --output-document=.htaccess #get custom google htaccess
 

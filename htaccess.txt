@@ -1,7 +1,5 @@
 ##
-# @package    Joomla
-# @copyright  Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
-# @license    GNU General Public License version 2 or later; see LICENSE.txt
+#  Modified by Frostybot For Joomla 3.4.3
 ##
 
 ##
@@ -9,14 +7,18 @@
 #
 # The line just below this section: 'Options +FollowSymLinks' may cause problems
 # with some server configurations.  It is required for use of mod_rewrite, but may already
-# be set by your server administrator in a way that dissallows changing it in
+# be set by your server administrator in a way that disallows changing it in
 # your .htaccess file.  If using it causes your server to error out, comment it out (add # to
 # beginning of line), reload your site in your browser and test your sef url's.  If they work,
 # it has been set by your server administrator and you do not need it set here.
 ##
 
+## No directory listings
+IndexIgnore *
+
 ## Can be commented out if causes errors, see notes above.
-Options +FollowSymLinks
+Options +FollowSymlinks
+Options -Indexes
 
 ## Mod_rewrite in use.
 
@@ -40,11 +42,6 @@ RewriteRule .* index.php [F]
 ## End - Rewrite rules to block out some common exploits.
 
 ## Begin - Custom redirects
-#
-# If you need to redirect some pages, or set a canonical non-www to
-# www redirect (or vice versa), place that code here. Ensure those
-# redirects use the correct RewriteRule syntax and the [R=301,L] flags.
-#
 
 # FROSTYBOT CONFIG
 # Server Settings
@@ -59,6 +56,9 @@ RewriteRule ^(.*)ckeditor(.*)$ http://frostybot.weebly.com/spam-catcher.html [R=
 RewriteRule ^(.*)piwik(.*)$ http://frostybot.weebly.com/spam-catcher.html [R=302,L]
 Redirect 302 /include/version.php http://frostybot.weebly.com/spam-catcher.html
 Redirect 302 /admin.php http://frostybot.weebly.com/spam-catcher.html
+ 
+#RewriteCond %{HTTP_HOST} !^domainname\.(com|fb|ny)$ [NC]
+#RewriteRule ^(.*)$ http://domainname.com/$1 [R=301,L]
 
 ## End - Custom redirects
 
