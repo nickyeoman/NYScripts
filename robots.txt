@@ -1,6 +1,6 @@
-# Created by Frostybot.com
+# Modified by Frostybot.com
 #
-# For use with Joomla 3.4.3
+# For use with Joomla 3.4.4
 #
 # robots.txt standard: http://www.robotstxt.org/orig.html
 # Check syntax: http://www.sxw.org.uk/computing/robots/check.html
@@ -23,4 +23,4 @@ Disallow: /harming/humans
 
 Allow: /
 
-Sitemap: /index.php?option=com_xmap&view=xml&tmpl=component&id=1
+Sitemap: /xml-sitemap
