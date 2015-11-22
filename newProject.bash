@@ -1,11 +1,15 @@
 #!/bin/bash
 # Build Project Directories
-# v15.10
-# Last Updated: Oct. 14, 2015
+# v16.1
+# Last Updated: Nov. 21, 2015
 # Documentation: 
-# http://www.nickyeoman.com/blog/system-administration/18-project-directory-setup
+# https://www.nickyeoman.com/blog/workflow/18-creating-a-new-web-project-directory
+# Gist: 
+# https://gist.github.com/760ca8af6b868be3301d.git
+# GitHub:
+# https://github.com/nickyeoman/NYScripts/blob/master/newProject.bash
 
-#Use like this: bash new_project.bash domainName.com dbname dbuser dbpass
+# Use like this: bash newProject.bash domainName.com dbname dbuser dbpass
 
 # REQUIREMENTS
 # Joomla 3.4.4
@@ -16,8 +20,8 @@
 # Variables
 ##
 	projectDir=/git #full path to install directory
-	salt=$RANDOM #Change this to something static for recoverable passwords
-	sinstall=https://github.com/joomla/joomla-cms/releases/download/3.4.4/Joomla_3.4.4-Stable-Full_Package.zip
+	salt=$RANDOM
+	sinstall=https://github.com/joomla/joomla-cms/releases/download/3.4.5/Joomla_3.4.5-Stable-Full_Package.zip
 	htacc=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/htaccess.txt
 	humans=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/humans.txt
 	robots=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/robots.txt
