@@ -1,6 +1,6 @@
 #!/bin/bash
-# Version 1.0
-
+# Version 2.0
+# Requires 7za installed: sudo apt-get install p7zip-full
 # removes a project
 
 #check to ensure root
@@ -17,7 +17,7 @@ domainName=${PWD##*/}
 
 cd $scriptDir #back to start
 
-#Ensure database user
+#Ensure database backedup
 bash dump_db.bash #backup
 cd ../sql
 echo "Root Database Password:"
@@ -32,10 +32,12 @@ cd $scriptDir #back to start
 
 #backup
 cd ..
-rm -rf .git #(only need current files for backup)
 sitedir=${PWD}
 cd ..
 7za a -t7z $domainName.7z $sitedir && rm -rf $sitedir
 
 #Done
-echo "All done your site ($domainName) is removed, you have to manually remove it from /etc/hosts if it exists"
+echo "Finished. Your website ($domainName) is removed. But you still need to:"
+echo "1. Move the 7z backup file somewhere"
+echo "2. Remove the /etc/hosts entry"
+echo "3. Remove any log files"

@@ -1,9 +1,9 @@
 #!/bin/bash
 # database.bash
 # Automates working with a database
-# v2.0
-# Last Updated Nov 26 2011
-# Documentation: http://www.nickyeoman.com/blog/mysql/31-mysql-backup-restore
+# v2.1
+# Last Updated Dec 1 2015
+# Documentation: http://www.nickyeoman.com/blog/db/31-mysql-backup-restore
  
 ##
 #  Set/Get Variables
