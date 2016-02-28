@@ -1,6 +1,6 @@
 # Modified by Frostybot.com
 #
-# For use with Joomla 3.4.4
+# For use with Joomla 3.4.8
 #
 # robots.txt standard: http://www.robotstxt.org/orig.html
 # Check syntax: http://www.sxw.org.uk/computing/robots/check.html

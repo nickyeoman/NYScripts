@@ -1,5 +1,10 @@
 ##
-#  Modified by Frostybot For Joomla 3.4.5
+#  Modified by Frostybot For Joomla 3.4.8
+##
+##
+# @package    Joomla
+# @copyright  Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+# @license    GNU General Public License version 2 or later; see LICENSE.txt
 ##
 
 ##
@@ -50,7 +55,6 @@ php_value output_buffering "0"
 #RewriteRule ^(.*)$ http://domainname.com/$1 [R=301,L]
 
 ## End - Custom redirects
-
 
 ##
 # Uncomment following line if your webserver's URL
