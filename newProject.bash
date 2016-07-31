@@ -1,10 +1,10 @@
 #!/bin/bash
 # Build Project Directories
-# v16.1
-# Last Updated: Nov. 21, 2015
-# Documentation: 
+# v16.2
+# Last Updated: Apr. 12, 2016
+# Documentation:
 # https://www.nickyeoman.com/blog/workflow/18-creating-a-new-web-project-directory
-# Gist: 
+# Gist:
 # https://gist.github.com/760ca8af6b868be3301d.git
 # GitHub:
 # https://github.com/nickyeoman/NYScripts/blob/master/newProject.bash
@@ -12,7 +12,7 @@
 # Use like this: bash newProject.bash domainName.com dbname dbuser dbpass
 
 # REQUIREMENTS
-# Joomla 3.4.4
+# Joomla 3.5.1
 # Ubuntu/debian:
 # You need an internet connection (to pull from github)
 
@@ -21,34 +21,34 @@
 ##
 	projectDir=/git #full path to install directory
 	salt=$RANDOM
-	sinstall=https://github.com/joomla/joomla-cms/releases/download/3.4.5/Joomla_3.4.5-Stable-Full_Package.zip
+	sinstall=https://github.com/joomla/joomla-cms/releases/download/3.5.1/Joomla_3.5.1-Stable-Full_Package.zip
 	htacc=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/htaccess.txt
 	humans=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/humans.txt
 	robots=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/robots.txt
 	wmtools=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/google5e5f3b5cfa769687.html
 	linuxusername=nick
 	linuxgroup=nick
-	
+
 #Project Domain
 	if [ -z "$1" ]; then
-	  echo -n "What is the domain name for this project? [DomainName]" 
+	  echo -n "What is the domain name for this project? [DomainName]"
 	  read domain
 	else
 	  domain=$1
 	fi
-	
+
 ##
 # Create Directories
 ##
 	cd $projectDir
-	
+
 	#check if dir exists
 	directory=$projectDir/$domain
 	if [ -d "$directory" ]; then
 		echo "$directory already exists"
 		exit 0
 	fi
-	
+
 	#create folders
 	mkdir $domain
 	cd $projectDir/$domain
@@ -68,12 +68,12 @@
 			dbname=${firstpart}_joomla
 		else
 			dbname=${notld}_joomla
-			
+
 		fi
 	else
 		dbname=$2
 	fi
-	
+
 	#db user
 	if [ -z "$3" ]; then
 		dbuser=`echo $dbname`
@@ -88,12 +88,12 @@
 	else
 		dbuser=$3
 	fi
-	
+
 	#dbpass
 	if [ -z "$4" ]; then
 		cd sql
 		wget https://raw.github.com/nickyeoman/NYScripts/master/sha1.php
-		dbpass=`php sha1.php $domain $salt $salt` 
+		dbpass=`php sha1.php $domain $salt $salt`
 		dbpass=`echo "$dbpass" | cut -c1-16`
 		rm sha1.php
 		cd $projectDir
@@ -117,7 +117,7 @@ xFileupdatex
 
 	cd $projectDir/$domain
 
-	
+
 #--------Begin Config sql document-----------#
 cat <<xFileconfigsqlx > $projectDir/$domain/sql/config.sql
 -- DB Name: $dbname
@@ -151,32 +151,32 @@ xFileremovesqlx
 ##
 	cd $projectDir/$domain/apache
 	project=`echo $domain | sed 's/\(.*\)\..*/\1/'`
-#--------Begin here document-----------#	
+#--------Begin here document-----------#
 cat <<xFileconfigshx > $domain.conf
 <VirtualHost *:80>
 	ServerName $domain
 	ServerAlias www.$domain *.$domain $project.ny $project.fb
 	DocumentRoot $projectDir/$domain/public/
 	ServerAdmin social@frostybot.com
-	
+
 	<Directory $projectDir/$domain/public/>
 		Options +Indexes +FollowSymLinks -MultiViews
 		AllowOverride All
 		Require all granted
 	</Directory>
-	
+
 	ErrorLog /var/log/apache2/error_$domain.log
 </VirtualHost>
 
 xFileconfigshx
 #----------End here document-----------#
-	
+
 ##
 # Install Joomla to Public
 ##
 	mkdir $projectDir/$domain/public
 	cd $projectDir/$domain/public
-	
+
 	wget $sinstall
 	unzip -e *.zip
 	rm -rf *.zip
@@ -209,33 +209,75 @@ cat <<xFilereadmex > README.md
 
 # INSTALLATION
 
-* Have your root system and mysql username and password ready
-* run 'sudo bash config.bash' to install the database
-* Configure your DNS or /etc/hosts file
-* Go to the domain and run the Joomla web installer
-* Dump the database 'sudo bash dump_db.bash'
-* Create the git repo 'git init'
-* Add your remote 
-* Push to remote
+## First Time
+* [ ] Have your root system and mysql username and password ready
+* [ ] Run 'sudo bash config.bash' to install the database
+* [ ] Configure your DNS or /etc/hosts file
+* [ ] Go to the domain and run the Joomla web installer
+* [ ] Dump the database 'sudo bash dump_db.bash'
+* [ ] Create the git repo 'git init'
+* [ ] Add your remote
+* [ ] Push to remote
 
-# Databse config
+## From repo
+
+* git clone url name
+* cd scripts && sudo bash config.bash
+
+#Billing Information
+
+Monthly Maintenance plan for the rate of *amount* until *date*.
+
+## Contact Information
+
+Name:
+Email:
+Phone:
+Contact Page:
+
+# Domain Name
+
+Domain Name is registered at:
+With the username:
+
+# DNS
+
+Name Servers are pointed to: Cloudflare
+
+# Hosting
+
+Currently on server: lamp.frostybot.com
+
+# Email
+
+MX record currently points to: Fbemail.net
+
+# Website
+
+Currently running: Joomla
+
+## SMTP
+
+* SMTP Sends through sendgrid with username
+
+## Joomla Core Edits
+
+No core edits at this Time
+
+## Joomla plugins installed
+
+* osmap
+* frostyform
+* FJT Template
+* bruteforce
+* rokpad
+* rokboost
+
+## Databse config
 
 * DB Name: $dbname
 * DB User: $dbuser
 * DB Pass: $dbpass
-
-# DNS
-
-Cloudflare
-
-# Hosting
-
-Lamp Server
-
-# Email
-
-Fbemail.net
-
 
 xFilereadmex
 #----------End here document-----------#
@@ -244,7 +286,7 @@ xFilereadmex
 	cd $projectDir/$domain/scripts
 	chmod u+x *
 	cd $projectDir/$domain
-	
+
 ##
 # All Done
 ##
@@ -255,8 +297,8 @@ cat <<xtalkToMex
 Installation Finished
 Your domain ($domain) is setup
 
-Go to $projectDir/$domain and open 
-README.md for more info 
+Go to $projectDir/$domain and open
+README.md for more info
 ****************************************
 xtalkToMex
 

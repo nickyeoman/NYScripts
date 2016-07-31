@@ -2,12 +2,12 @@
 # Mirror A Website with Wget
 # v1.0
 # Last Updated: Apr. 1, 2015
-# Documentation: 
+# Documentation:
 # https://www.nickyeoman.com/blog/system-administration/202-mirror-a-website-with-wget
 
 # Domain
 if [ -z "$1" ]; then
-  echo -n "What is the domain name that you want to mirror?" 
+  echo -n "What is the domain name that you want to mirror?"
   read domain
 else
   domain=$1
@@ -20,4 +20,5 @@ else
   location=$2
 fi
 
-wget --recursive --no-clobber --page-requisites --html-extension --convert-links --restrict-file-names=windows --domains $domain --no-parent $domain --directory-prefix $location
+wget --recursive --no-clobber --page-requisites --html-extension --convert-links --restrict-file-names=unix --no-host-directories \
+--domains $domain --no-parent $domain --directory-prefix $location
