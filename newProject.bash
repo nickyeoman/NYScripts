@@ -1,7 +1,7 @@
 #!/bin/bash
 # Build Project Directories
-# v16.2
-# Last Updated: Apr. 12, 2016
+# v17
+# Last Updated: Nov. 05, 2016
 # Documentation:
 # https://www.nickyeoman.com/blog/workflow/18-creating-a-new-web-project-directory
 # Gist:
@@ -167,6 +167,39 @@ cat <<xFileconfigshx > $domain.conf
 
 	ErrorLog /var/log/apache2/error_$domain.log
 </VirtualHost>
+
+# https://www.digitalocean.com/community/tutorials/how-to-set-up-multiple-ssl-certificates-on-one-ip-with-apache-on-ubuntu-12-04
+
+<IfModule mod_ssl.c>
+<VirtualHost *:443>
+
+        ServerAdmin social@frostybot.com
+        ServerName $domain
+        ServerAlias www.$domain *.$domain $project.ny $project.fb
+        DocumentRoot $projectDir/$domain/public/
+
+        #   SSL Engine Switch:
+        #   Enable/Disable SSL for this virtual host.
+        SSLEngine on
+
+        #   A self-signed (snakeoil) certificate can be created by installing
+        #   the ssl-cert package. See
+        #   /usr/share/doc/apache2.2-common/README.Debian.gz for more info.
+        #   If both key and certificate are stored in the same file, only the
+        #   SSLCertificateFile directive is needed.
+        SSLCertificateFile /git/$domain/apache/ssl/apache.crt
+        SSLCertificateKeyFile /git/$domain/apache/ssl/apache.key
+
+	<Directory /git/$domain/public/>
+		Options +Indexes +FollowSymLinks -MultiViews
+		AllowOverride All
+		Require all granted
+	</Directory>
+    ErrorLog /var/log/apache2/error_$domain.log
+
+</VirtualHost>
+
+</IfModule>
 
 xFileconfigshx
 #----------End here document-----------#
