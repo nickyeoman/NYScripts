@@ -52,7 +52,7 @@
 	#create folders
 	mkdir $domain
 	cd $projectDir/$domain
-	mkdir scripts sql apache docs
+	mkdir scripts sql apache frostybot
 	mkdir sql/backup
 
 ##
