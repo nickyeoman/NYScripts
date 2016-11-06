@@ -108,6 +108,7 @@
 	wget https://raw.github.com/nickyeoman/NYScripts/master/database.bash
 	wget https://raw.github.com/nickyeoman/NYScripts/master/config.bash
 	wget https://raw.github.com/nickyeoman/NYScripts/master/remove.bash
+	wget https://raw.github.com/nickyeoman/NYScripts/master/sslupdate.bash
 	cat <<xFiledumpx > dump_db.bash
 ./database.bash d $dbname $dbuser $dbpass localhost
 xFiledumpx
