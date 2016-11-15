@@ -1,7 +1,7 @@
 #!/bin/bash
 # Build Project Directories
-# v17
-# Last Updated: Nov. 05, 2016
+# v18
+# Last Updated: Nov. 15, 2016
 # Documentation:
 # https://www.nickyeoman.com/blog/workflow/18-creating-a-new-web-project-directory
 # Gist:
@@ -12,7 +12,7 @@
 # Use like this: bash newProject.bash domainName.com dbname dbuser dbpass
 
 # REQUIREMENTS
-# Joomla 3.5.1
+# Joomla 3.6.4
 # Ubuntu/debian:
 # You need an internet connection (to pull from github)
 
@@ -21,7 +21,7 @@
 ##
 	projectDir=/git #full path to install directory
 	salt=$RANDOM
-	sinstall=https://github.com/joomla/joomla-cms/releases/download/3.5.1/Joomla_3.5.1-Stable-Full_Package.zip
+	sinstall=https://downloads.joomla.org/cms/joomla3/3-6-4/joomla_3-6-4-stable-full_package-zip?format=zip
 	htacc=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/htaccess.txt
 	humans=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/humans.txt
 	robots=https://raw.githubusercontent.com/nickyeoman/NYScripts/master/robots.txt
@@ -54,6 +54,7 @@
 	cd $projectDir/$domain
 	mkdir scripts sql apache frostybot
 	mkdir sql/backup
+	mkdir apache/ssl
 
 ##
 # Database info
@@ -109,6 +110,7 @@
 	wget https://raw.github.com/nickyeoman/NYScripts/master/config.bash
 	wget https://raw.github.com/nickyeoman/NYScripts/master/remove.bash
 	wget https://raw.github.com/nickyeoman/NYScripts/master/sslupdate.bash
+	wget https://raw.github.com/nickyeoman/NYScripts/master/testing-checklist.bash
 	cat <<xFiledumpx > dump_db.bash
 ./database.bash d $dbname $dbuser $dbpass localhost
 xFiledumpx
@@ -225,7 +227,7 @@ cd $projectDir/$domain/public
 wget $humans	#humans.txt
 wget $robots #robots.txt
 wget $wmtools #Google webmaster tools
-wget $htacc --output-document=.htaccess #get custom google htaccess
+wget $htacc --output-document=.htaccess #get custom htaccess
 
 # Pump in db info to installer
 cd installation/view/database/tmpl

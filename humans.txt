@@ -1,15 +1,10 @@
 humans.txt (actually markdown)
-Last Updated: September 24, 2015
+Last Updated: November 15, 2016
 
 # TEAMS
 
 Company: [Frostybot Marketing Corp.](http://frostybot.com/)
 
-## Programming 
-[Nick Yeoman](http://www.NickYeoman.com/), from Summerland, BC, Canada
-
-## Graphic & Web Design 
-[Jon Couch](http://couchart.com), from Kelowna, BC, Canada
 
 # TOOLS
 
