@@ -213,7 +213,7 @@ xFileconfigshx
 	mkdir $projectDir/$domain/public
 	cd $projectDir/$domain/public
 
-	wget $sinstall
+	wget $sinstall -O joomla.zip
 	unzip -e *.zip
 	rm -rf *.zip
 	cd $projectDir/$domain
