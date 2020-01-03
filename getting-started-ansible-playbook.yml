@@ -18,14 +18,6 @@
   - name: Set Timezone to Vancouver
     timezone: name=America/Vancouver
 
-  - name: Run apt update
-    apt: update_cache=yes cache_valid_time=3600
-    register: apt_result
-    until: apt_result is success
-    retries: 3
-    delay: 1
-    ignore_errors: yes
-
   - name: Add Docker GPG key
     apt_key: url=https://download.docker.com/linux/ubuntu/gpg
 
@@ -39,22 +31,22 @@
 
   - name: Install Docker and my docker dependancies
     apt:
-      name: "{{ item }}"
-      state: present
-    with_items:
+      state: latest
+      pkg:
       - apt-transport-https
       - ca-certificates
       - curl
       - software-properties-common
       - docker.io
       - docker-compose
- 
-  - name: Allow defined user to use docker: usermod -aG docker $USER
+      - python-apt
+          
+  - name: Allow defined user to use docker, usermod -aG docker $USER
     user:
       name: {{ v_username}}
       shell: /bin/bash
       group: {{ v_username}}
-      groups: docker
+      groups: docker, sudo, adm, dip, plugdev, lxd
       state: present
       
   - hostname:
