@@ -25,9 +25,9 @@
     apt_repository:
       repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} stable
 
-  - name: retry if needed using command apt-get update
-    command: apt-get update
-    when: apt_result is failed
+  - name: apt update
+    apt: 
+      update_cache: yes
 
   - name: Install Docker and my docker dependancies
     apt:
@@ -49,6 +49,8 @@
       groups: docker, sudo, adm, dip, plugdev, lxd
       state: present
       
-  - hostname:
-    name: "{{ v_hostname }}"
+  - name: Change hostname
+    hostname:
+      name: "{{ v_hostname }}"
+      use: debian
     
