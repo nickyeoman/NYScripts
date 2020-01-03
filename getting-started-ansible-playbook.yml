@@ -4,17 +4,19 @@
 # Set timezone and install docker
 #
 # author: Nick Yeoman
-# website: https://www.NickYeoman.com/
+# website: https://www.NickYeoman.com/blog/getting-started-with-ansible/
 ###############################################################################
 
 - hosts: all
+
+  #Varibles, change to your requirements
+  vars:
+    v_username: nick
+    v_hostname: nixbuntu
+    
   tasks:
   - name: Set Timezone to Vancouver
     timezone: name=America/Vancouver
-
-  - name: apt update
-    apt:
-      update_cache: yes
 
   - name: Run apt update
     apt: update_cache=yes cache_valid_time=3600
@@ -35,7 +37,7 @@
     command: apt-get update
     when: apt_result is failed
 
-  - name: Install Docker and my dependancies
+  - name: Install Docker and my docker dependancies
     apt:
       name: "{{ item }}"
       state: present
@@ -47,3 +49,14 @@
       - docker.io
       - docker-compose
  
+  - name: Allow defined user to use docker: usermod -aG docker $USER
+    user:
+      name: {{ v_username}}
+      shell: /bin/bash
+      group: {{ v_username}}
+      groups: docker
+      state: present
+      
+  - hostname:
+    name: {{ v_hostname }}
+    
