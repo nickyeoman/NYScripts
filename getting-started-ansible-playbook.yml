@@ -1,0 +1,49 @@
+---
+
+###############################################################################
+# Set timezone and install docker
+#
+# author: Nick Yeoman
+# website: https://www.NickYeoman.com/
+###############################################################################
+
+- hosts: all
+  tasks:
+  - name: Set Timezone to Vancouver
+    timezone: name=America/Vancouver
+
+  - name: apt update
+    apt:
+      update_cache: yes
+
+  - name: Run apt update
+    apt: update_cache=yes cache_valid_time=3600
+    register: apt_result
+    until: apt_result is success
+    retries: 3
+    delay: 1
+    ignore_errors: yes
+
+  - name: Add Docker GPG key
+    apt_key: url=https://download.docker.com/linux/ubuntu/gpg
+
+  - name: Add Docker APT repository
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} stable
+
+  - name: retry if needed using command apt-get update
+    command: apt-get update
+    when: apt_result is failed
+
+  - name: Install Docker and my dependancies
+    apt:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+      - docker.io
+      - docker-compose
+ 
