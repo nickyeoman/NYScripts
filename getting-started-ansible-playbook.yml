@@ -43,12 +43,12 @@
           
   - name: Allow defined user to use docker, usermod -aG docker $USER
     user:
-      name: {{ v_username}}
+      name: "{{ v_username}}"
       shell: /bin/bash
-      group: {{ v_username}}
+      group: "{{ v_username}}"
       groups: docker, sudo, adm, dip, plugdev, lxd
       state: present
       
   - hostname:
-    name: {{ v_hostname }}
+    name: "{{ v_hostname }}"
     
