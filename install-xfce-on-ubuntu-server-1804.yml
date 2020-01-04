@@ -24,3 +24,10 @@
       - xscreensaver 
       - xscreensaver-gl-extra 
       - xscreensaver-data-extra
+
+  - name: grab a wallpaper, we will set it later
+    get_url:
+      url: https://w.wallhaven.cc/full/od/wallhaven-odk1w5.jpg
+      dest: /usr/share/backgrounds/xfce/picard-unmotivater.jpg
+      checksum: sha256:91558bb4f20dd5ef752889f01266e62dad0b3425e6632c1ae8be4e46d1fa2df0
+      
