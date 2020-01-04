@@ -1,0 +1,26 @@
+---
+
+###############################################################################
+# Goals:
+# - install xfce
+# - Configure virtualbox
+#
+# author: Nick Yeoman
+# website: https://www.NickYeoman.com/blog/install-xfce-on-ubuntu-server-1804/
+###############################################################################
+
+# not meant to use a hosts file
+- hosts: all
+
+  - name: install xfce4
+    apt:
+      state: latest
+      pkg:
+      - xfce4
+      # Remove the following line if you are not using virutalbox
+      - virtualbox-guest-additions-iso
+      - firefox
+      # Screensavers
+      - xscreensaver 
+      - xscreensaver-gl-extra 
+      - xscreensaver-data-extra
