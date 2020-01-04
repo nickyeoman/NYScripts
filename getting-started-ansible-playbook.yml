@@ -1,23 +1,33 @@
 ---
 
 ###############################################################################
-# Set timezone and install docker
+# Set timezone and install docker, configure git
 #
+# Version 1.1
 # author: Nick Yeoman
 # website: https://www.NickYeoman.com/blog/getting-started-with-ansible/
 ###############################################################################
 
 - hosts: all
 
-  #Varibles, change to your requirements
+###############################################################################
+# Varibles, change to your requirements
+###############################################################################  
   vars:
     v_username: nick
     v_hostname: nixbuntu
+    v_email: c@nickyeoman.com
     
+###############################################################################
+# Timezone
+###############################################################################
   tasks:
   - name: Set Timezone to Vancouver
     timezone: name=America/Vancouver
 
+###############################################################################
+# Docker
+###############################################################################
   - name: Add Docker GPG key
     apt_key: url=https://download.docker.com/linux/ubuntu/gpg
 
@@ -48,9 +58,26 @@
       group: "{{ v_username}}"
       groups: docker, sudo, adm, dip, plugdev, lxd
       state: present
-      
+
+###############################################################################
+# Hostname
+###############################################################################
   - name: Change hostname
     hostname:
       name: "{{ v_hostname }}"
       use: debian
-    
+  
+  ###############################################################################
+  # Git
+  ###############################################################################
+  
+  - name: Configure Git
+    git_config:
+      name="{{ item.name }}"
+      scope=global
+      value="{{ item.value }}"
+    with_items:
+      - {name: "user.name",  value: "{{ v_username}}" }
+      - {name: "user.email", value: "{{ v_email}}" }
+      - {name: "ui.color",   value: "True" }
+      
