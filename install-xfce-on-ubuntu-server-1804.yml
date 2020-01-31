@@ -1,6 +1,11 @@
 ---
 
 ###############################################################################
+# v1.1
+#
+# wget https://fbot.co/ansiblexfce -O installxfce.yml
+# ansilbe-playbook -i localhost, -u root -k installxfce.yml
+#
 # Goals:
 # - install xfce
 # - Configure virtualbox
@@ -12,6 +17,7 @@
 # not meant to use a hosts file
 - hosts: all
 
+  tasks:
   - name: install xfce4
     apt:
       state: latest
