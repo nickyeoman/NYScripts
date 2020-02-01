@@ -30,6 +30,13 @@
       - xscreensaver 
       - xscreensaver-gl-extra 
       - xscreensaver-data-extra
+      #virtualbox tools
+      - make
+      - gcc
+      - virtualbox-guest-dkms 
+      - virtualbox-guest-utils 
+      - virtualbox-guest-x11
+
 
   - name: grab a wallpaper, we will set it later
     get_url:
