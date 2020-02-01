@@ -23,6 +23,8 @@
       state: latest
       pkg:
       - xfce4
+      - xfce4-whiskermenu-plugin
+      - mugshot
       - firefox
       # Screensavers
       - xscreensaver 
