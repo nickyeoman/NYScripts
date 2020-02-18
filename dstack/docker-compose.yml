@@ -1,0 +1,79 @@
+version: '3.3'
+
+services:
+
+  traefik:
+    image: "traefik:v2.1.3"
+    container_name: "traefik"
+    restart: unless-stopped
+    command:
+      - "--providers.docker"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  
+  portainer:
+    image: portainer/portainer:1.23.1 # https://hub.docker.com/r/portainer/portainer/tags/
+    container_name: portainer
+    command: -H unix:///var/run/docker.sock
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer:/data
+    labels:
+      - traefik.http.routers.portainer.rule=Host(`portainer.${DC_DOMAIN}`)
+
+  gitlab:
+    image: 'gitlab/gitlab-ce:latest'
+    restart: unless-stopped
+    hostname: gitlab.${DC_DOMAIN}
+    container_name: gitlab
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.${DC_DOMAIN}'
+    ports:
+      - '2222:22'
+      - '4567:4567'
+    volumes:
+      - gitlab-a:/etc/gitlab
+      - gitlab-b:/var/log/gitlab
+      - gitlab-c:/var/opt/gitlab
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gitlab.rule=Host(`gitlab.${DC_DOMAIN}`)"
+      - "traefik.http.services.gitlab.loadbalancer.server.port=80"
+      
+  nextclouddb:
+    image: mariadb:10.4.11
+    container_name: nextclouddb
+    hostname: nextclouddb
+    restart: unless-stopped
+    volumes:
+      - nextclouddb:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASS}
+      MYSQL_PASSWORD: ${MYSQL_PASS}
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+
+  nextcloud:
+    image: nextcloud:17.0.2
+    container_name: nextcloud
+    hostname: nextcloud
+    links:
+      - nextclouddb
+    volumes:
+      - nextcloud:/var/www/html
+    restart: unless-stopped
+    labels:
+      - traefik.http.routers.nextcloud.rule=Host(`nextcloud.${DC_DOMAIN}`)
+
+volumes:
+  portainer:
+  gitlab-a:
+  gitlab-b:
+  gitlab-c:
+  nextclouddb:
+  nextcloud:
