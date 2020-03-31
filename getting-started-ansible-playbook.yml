@@ -12,12 +12,13 @@
 
 ###############################################################################
 # Varibles, change to your requirements
-###############################################################################  
+###############################################################################
   vars:
     v_username: nick
     v_hostname: nixbuntu
     v_email: c@nickyeoman.com
-    
+    gitpath: /home/nick/Git
+
 ###############################################################################
 # Timezone
 ###############################################################################
@@ -36,7 +37,7 @@
       repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} stable
 
   - name: apt update
-    apt: 
+    apt:
       update_cache: yes
 
   - name: Install Docker and my docker dependancies
@@ -50,7 +51,7 @@
       - docker.io
       - docker-compose
       - python-apt
-          
+
   - name: Allow defined user to use docker, usermod -aG docker $USER
     user:
       name: "{{ v_username}}"
@@ -66,11 +67,11 @@
     hostname:
       name: "{{ v_hostname }}"
       use: debian
-  
+
   ###############################################################################
   # Git
   ###############################################################################
-  
+
   - name: Configure Git
     git_config:
       name="{{ item.name }}"
@@ -80,4 +81,20 @@
       - {name: "user.name",  value: "{{ v_username}}" }
       - {name: "user.email", value: "{{ v_email}}" }
       - {name: "ui.color",   value: "True" }
-      
+
+  - name: Ensure directory exists
+    file:
+      path: "{{ gitpath }}"
+      state: directory
+      mode: '0750'
+      owner: "{{ v_username }}"
+      group: "{{ v_username }}"
+
+  - name: Clone ansible public repo
+    git:
+      repo: git@github.com:nickyeoman/ansible-public.git
+      dest: "{{ gitpath }}/ansible-public"
+      key_file: "{{ gitkey }}"
+      accept_hostkey: yes
+      version: master
+      update: no
