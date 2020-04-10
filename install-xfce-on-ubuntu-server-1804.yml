@@ -1,7 +1,7 @@
 ---
 
 ###############################################################################
-# v1.1
+# v1.2
 #
 # wget https://fbot.co/ansiblexfce -O installxfce.yml
 # ansilbe-playbook -i localhost, -u root -k installxfce.yml
@@ -36,6 +36,9 @@
       - virtualbox-guest-dkms 
       - virtualbox-guest-utils 
       - virtualbox-guest-x11
+      # sound
+      - alsa
+      - alsa-tools
 
 
   - name: grab a wallpaper, we will set it later
