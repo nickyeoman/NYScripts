@@ -1,11 +1,10 @@
 ---
-
 ###############################################################################
 # Set timezone and install docker, configure git
 #
-# Version 1.1
+# Version 2.0
 # author: Nick Yeoman
-# website: https://www.NickYeoman.com/blog/getting-started-with-ansible/
+# website: https://www.nickyeoman.com/blog/linux/ansible-getting-started/
 ###############################################################################
 
 - hosts: all
@@ -15,9 +14,7 @@
 ###############################################################################
   vars:
     v_username: nick
-    v_hostname: nixbuntu
     v_email: c@nickyeoman.com
-    gitpath: /home/nick/Git
 
 ###############################################################################
 # Timezone
@@ -60,14 +57,6 @@
       groups: docker, sudo, adm, dip, plugdev, lxd
       state: present
 
-###############################################################################
-# Hostname
-###############################################################################
-  - name: Change hostname
-    hostname:
-      name: "{{ v_hostname }}"
-      use: debian
-
   ###############################################################################
   # Git
   ###############################################################################
@@ -81,20 +70,3 @@
       - {name: "user.name",  value: "{{ v_username}}" }
       - {name: "user.email", value: "{{ v_email}}" }
       - {name: "ui.color",   value: "True" }
-
-  - name: Ensure directory exists
-    file:
-      path: "{{ gitpath }}"
-      state: directory
-      mode: '0750'
-      owner: "{{ v_username }}"
-      group: "{{ v_username }}"
-
-  - name: Clone ansible public repo
-    git:
-      repo: git@github.com:nickyeoman/ansible-public.git
-      dest: "{{ gitpath }}/ansible-public"
-      key_file: "{{ gitkey }}"
-      accept_hostkey: yes
-      version: master
-      update: no
